@@ -1,0 +1,108 @@
+[2026-11-08 11:58:58] [INFO] Đọc dữ liệu từ data/train.csv: 29,474 dòng. Cột: text='Comment', sent='Sentiment', tox='Toxicity'
+[2026-11-08 11:58:58] [INFO] Bước 1/6: Làm sạch văn bản tối thiểu (Minimal Cleaning)...
+[2026-11-08 11:58:58] [INFO] Bước 2/6: Khởi tạo 5-Fold Joint Stratified & Tiền tính toán ma trận TF-IDF Pareto...
+[2026-11-08 11:59:06] [INFO]   [Fold 1/5] N_tr=23,579, V_total=242,879, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.44s]
+[2026-11-08 11:59:13] [INFO]   [Fold 2/5] N_tr=23,579, V_total=244,374, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.66s]
+[2026-11-08 11:59:21] [INFO]   [Fold 3/5] N_tr=23,579, V_total=243,017, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.91s]
+[2026-11-08 11:59:30] [INFO]   [Fold 4/5] N_tr=23,579, V_total=242,723, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [8.91s]
+[2026-11-08 11:59:38] [INFO]   [Fold 5/5] N_tr=23,580, V_total=242,639, max_features=70,740 (CLAMPED_TO_UPPER_BOUND_3N) [8.03s]
+[2026-11-08 11:59:38] [INFO] Bước 3/6: Tối ưu Siêu tham số C cho Trục 1 (Sentiment): [0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0]
+[2026-11-08 11:59:46] [INFO]   [Sentiment | C=0.01    ] Val_F1=0.6291 (±0.0040) | Train_F1=0.6712 | Gap=0.0421 | Score=0.6080 (8.24s)
+[2026-11-08 11:59:52] [INFO]   [Sentiment | C=0.02169 ] Val_F1=0.6492 (±0.0053) | Train_F1=0.7091 | Gap=0.0599 | Score=0.6193 (5.61s)
+[2026-11-08 11:59:58] [INFO]   [Sentiment | C=0.04705 ] Val_F1=0.6659 (±0.0051) | Train_F1=0.7506 | Gap=0.0846 | Score=0.6236 (6.15s)
+[2026-11-08 12:00:04] [INFO]   [Sentiment | C=0.10205 ] Val_F1=0.6738 (±0.0041) | Train_F1=0.7975 | Gap=0.1237 | Score=0.6119 (6.22s)
+[2026-11-08 12:00:12] [INFO]   [Sentiment | C=0.22135 ] Val_F1=0.6753 (±0.0037) | Train_F1=0.8520 | Gap=0.1767 | Score=0.5869 (7.85s)
+[2026-11-08 12:00:23] [INFO]   [Sentiment | C=0.48012 ] Val_F1=0.6672 (±0.0051) | Train_F1=0.9077 | Gap=0.2405 | Score=0.5470 (10.8s)
+[2026-11-08 12:00:40] [INFO]   [Sentiment | C=1.04141 ] Val_F1=0.6562 (±0.0035) | Train_F1=0.9539 | Gap=0.2977 | Score=0.5074 (17.28s)
+[2026-11-08 12:01:11] [INFO]   [Sentiment | C=2.25886 ] Val_F1=0.6434 (±0.0032) | Train_F1=0.9811 | Gap=0.3377 | Score=0.4746 (31.0s)
+[2026-11-08 12:02:15] [INFO] Đọc dữ liệu từ data/train.csv: 29,474 dòng. Cột: text='Comment', sent='Sentiment', tox='Toxicity'
+[2026-11-08 12:02:15] [INFO] Bước 1/6: Làm sạch văn bản tối thiểu (Minimal Cleaning)...
+[2026-11-08 12:02:16] [INFO] Bước 2/6: Khởi tạo 5-Fold Joint Stratified & Tiền tính toán ma trận TF-IDF Pareto...
+[2026-11-08 12:02:23] [INFO]   [Fold 1/5] N_tr=23,579, V_total=242,879, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.36s]
+[2026-11-08 12:02:31] [INFO]   [Fold 2/5] N_tr=23,579, V_total=244,374, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.87s]
+[2026-11-08 12:02:39] [INFO]   [Fold 3/5] N_tr=23,579, V_total=243,017, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.61s]
+[2026-11-08 12:02:46] [INFO]   [Fold 4/5] N_tr=23,579, V_total=242,723, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.51s]
+[2026-11-08 12:02:54] [INFO]   [Fold 5/5] N_tr=23,580, V_total=242,639, max_features=70,740 (CLAMPED_TO_UPPER_BOUND_3N) [7.52s]
+[2026-11-08 12:02:54] [INFO] Đã khôi phục 8 kết quả từ checkpoint.
+[2026-11-08 12:02:54] [INFO] Bước 3/6: Tối ưu Siêu tham số C cho Trục 1 (Sentiment): [0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0]
+[2026-11-08 12:04:17] [INFO] Đọc dữ liệu từ data/train.csv: 29,474 dòng. Cột: text='Comment', sent='Sentiment', tox='Toxicity'
+[2026-11-08 12:04:17] [INFO] Bước 1/6: Làm sạch văn bản tối thiểu (Minimal Cleaning)...
+[2026-11-08 12:04:18] [INFO] Bước 2/6: Khởi tạo 5-Fold Joint Stratified & Tiền tính toán ma trận TF-IDF Pareto...
+[2026-11-08 12:04:25] [INFO]   [Fold 1/5] N_tr=23,579, V_total=242,879, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.40s]
+[2026-11-08 12:04:33] [INFO]   [Fold 2/5] N_tr=23,579, V_total=244,374, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.74s]
+[2026-11-08 12:04:40] [INFO]   [Fold 3/5] N_tr=23,579, V_total=243,017, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.67s]
+[2026-11-08 12:04:48] [INFO]   [Fold 4/5] N_tr=23,579, V_total=242,723, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.33s]
+[2026-11-08 12:04:55] [INFO]   [Fold 5/5] N_tr=23,580, V_total=242,639, max_features=70,740 (CLAMPED_TO_UPPER_BOUND_3N) [7.40s]
+[2026-11-08 12:04:55] [INFO] Đã khôi phục 8 kết quả từ checkpoint.
+[2026-11-08 12:04:55] [INFO] Bước 3/6: Tối ưu Siêu tham số C cho Trục 1 (Sentiment): [0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0]
+[2026-11-08 12:05:48] [INFO]   [Sentiment | C=4.89959 ] Val_F1=0.6311 (±0.0031) | Train_F1=0.9931 | Gap=0.3620 | Score=0.4501 (53.21s)
+[2026-11-08 12:07:38] [INFO]   [Sentiment | C=10.62747] Val_F1=0.6228 (±0.0047) | Train_F1=0.9971 | Gap=0.3743 | Score=0.4357 (109.83s)
+[2026-11-08 12:11:27] [INFO]   [Sentiment | C=23.05154] Val_F1=0.6167 (±0.0036) | Train_F1=0.9980 | Gap=0.3813 | Score=0.4260 (228.89s)
+[2026-11-08 12:17:41] [INFO] Đọc dữ liệu từ data/train.csv: 29,474 dòng. Cột: text='Comment', sent='Sentiment', tox='Toxicity'
+[2026-11-08 12:17:41] [INFO] Bước 1/6: Làm sạch văn bản tối thiểu (Minimal Cleaning)...
+[2026-11-08 12:17:42] [INFO] Bước 2/6: Khởi tạo 5-Fold Joint Stratified & Tiền tính toán ma trận TF-IDF Pareto...
+[2026-11-08 12:17:49] [INFO]   [Fold 1/5] N_tr=23,579, V_total=242,879, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [6.98s]
+[2026-11-08 12:17:56] [INFO]   [Fold 2/5] N_tr=23,579, V_total=244,374, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.01s]
+[2026-11-08 12:18:03] [INFO]   [Fold 3/5] N_tr=23,579, V_total=243,017, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.01s]
+[2026-11-08 12:18:10] [INFO]   [Fold 4/5] N_tr=23,579, V_total=242,723, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.08s]
+[2026-11-08 12:18:17] [INFO]   [Fold 5/5] N_tr=23,580, V_total=242,639, max_features=70,740 (CLAMPED_TO_UPPER_BOUND_3N) [6.94s]
+[2026-11-08 12:18:17] [INFO] Đã khôi phục 11 kết quả từ checkpoint.
+[2026-11-08 12:18:17] [INFO] Bước 3/6: Tối ưu Siêu tham số C cho Trục 1 (Sentiment): [0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0]
+[2026-11-08 12:23:02] [INFO]   [Sentiment | C=50.0    ] Val_F1=0.6119 (±0.0039) | Train_F1=0.9979 | Gap=0.3860 | Score=0.4189 (285.02s)
+[2026-11-08 12:23:02] [INFO] ==> C* TRỤC SENTIMENT: C_sent* = 0.04705 (Val F1 = 0.6659, Gap = 0.0846)
+[2026-11-08 12:23:02] [INFO] Bước 4/6: Tối ưu (C, alpha) cho Trục 2 (Toxicity - IR=169.36): C=[0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0] x alpha=[0.0, 0.35, 0.5]
+[2026-11-08 12:23:07] [INFO]   [Toxicity  | alpha=0.0  | C=0.01    ] Val_F1=0.5009 (±0.0180) | Train_F1=0.6445 | Gap=0.1436 | Score=0.4291 (4.83s)
+[2026-11-08 12:23:12] [INFO]   [Toxicity  | alpha=0.0  | C=0.02169 ] Val_F1=0.5152 (±0.0163) | Train_F1=0.7006 | Gap=0.1854 | Score=0.4225 (4.96s)
+[2026-11-08 12:23:16] [INFO]   [Toxicity  | alpha=0.0  | C=0.04705 ] Val_F1=0.5300 (±0.0154) | Train_F1=0.7611 | Gap=0.2311 | Score=0.4145 (4.9s)
+[2026-11-08 12:23:22] [INFO]   [Toxicity  | alpha=0.0  | C=0.10205 ] Val_F1=0.5496 (±0.0178) | Train_F1=0.8412 | Gap=0.2916 | Score=0.4038 (5.13s)
+[2026-11-08 12:23:27] [INFO]   [Toxicity  | alpha=0.0  | C=0.22135 ] Val_F1=0.5570 (±0.0192) | Train_F1=0.9244 | Gap=0.3673 | Score=0.3734 (5.4s)
+[2026-11-08 12:23:33] [INFO]   [Toxicity  | alpha=0.0  | C=0.48012 ] Val_F1=0.5502 (±0.0227) | Train_F1=0.9736 | Gap=0.4234 | Score=0.3385 (6.11s)
+[2026-11-08 12:23:41] [INFO]   [Toxicity  | alpha=0.0  | C=1.04141 ] Val_F1=0.5402 (±0.0221) | Train_F1=0.9952 | Gap=0.4550 | Score=0.3127 (7.51s)
+[2026-11-08 12:23:50] [INFO]   [Toxicity  | alpha=0.0  | C=2.25886 ] Val_F1=0.5352 (±0.0220) | Train_F1=0.9997 | Gap=0.4645 | Score=0.3029 (9.66s)
+[2026-11-08 12:24:04] [INFO]   [Toxicity  | alpha=0.0  | C=4.89959 ] Val_F1=0.5252 (±0.0165) | Train_F1=0.9999 | Gap=0.4746 | Score=0.2879 (13.4s)
+[2026-11-08 12:24:23] [INFO]   [Toxicity  | alpha=0.0  | C=10.62747] Val_F1=0.5236 (±0.0171) | Train_F1=1.0000 | Gap=0.4764 | Score=0.2855 (19.55s)
+[2026-11-08 12:24:50] [INFO]   [Toxicity  | alpha=0.0  | C=23.05154] Val_F1=0.5181 (±0.0191) | Train_F1=1.0000 | Gap=0.4819 | Score=0.2771 (26.41s)
+[2026-11-08 12:25:22] [INFO]   [Toxicity  | alpha=0.0  | C=50.0    ] Val_F1=0.5169 (±0.0181) | Train_F1=1.0000 | Gap=0.4831 | Score=0.2753 (32.8s)
+[2026-11-08 12:25:27] [INFO]   [Toxicity  | alpha=0.35 | C=0.01    ] Val_F1=0.4989 (±0.0166) | Train_F1=0.6603 | Gap=0.1614 | Score=0.4182 (4.99s)
+[2026-11-08 12:25:32] [INFO]   [Toxicity  | alpha=0.35 | C=0.02169 ] Val_F1=0.5151 (±0.0146) | Train_F1=0.7204 | Gap=0.2054 | Score=0.4124 (5.06s)
+[2026-11-08 12:25:38] [INFO]   [Toxicity  | alpha=0.35 | C=0.04705 ] Val_F1=0.5376 (±0.0216) | Train_F1=0.7918 | Gap=0.2542 | Score=0.4105 (5.22s)
+[2026-11-08 12:25:43] [INFO]   [Toxicity  | alpha=0.35 | C=0.10205 ] Val_F1=0.5499 (±0.0199) | Train_F1=0.8778 | Gap=0.3279 | Score=0.3860 (5.52s)
+[2026-11-08 12:25:49] [INFO]   [Toxicity  | alpha=0.35 | C=0.22135 ] Val_F1=0.5504 (±0.0222) | Train_F1=0.9445 | Gap=0.3941 | Score=0.3533 (6.07s)
+[2026-11-08 12:25:56] [INFO]   [Toxicity  | alpha=0.35 | C=0.48012 ] Val_F1=0.5459 (±0.0193) | Train_F1=0.9831 | Gap=0.4372 | Score=0.3274 (7.03s)
+[2026-11-08 12:26:05] [INFO]   [Toxicity  | alpha=0.35 | C=1.04141 ] Val_F1=0.5385 (±0.0218) | Train_F1=0.9981 | Gap=0.4596 | Score=0.3087 (8.5s)
+[2026-11-08 12:26:16] [INFO]   [Toxicity  | alpha=0.35 | C=2.25886 ] Val_F1=0.5303 (±0.0168) | Train_F1=0.9999 | Gap=0.4696 | Score=0.2954 (10.96s)
+[2026-11-08 12:26:31] [INFO]   [Toxicity  | alpha=0.35 | C=4.89959 ] Val_F1=0.5257 (±0.0164) | Train_F1=1.0000 | Gap=0.4743 | Score=0.2885 (14.81s)
+[2026-11-08 12:26:51] [INFO]   [Toxicity  | alpha=0.35 | C=10.62747] Val_F1=0.5233 (±0.0170) | Train_F1=1.0000 | Gap=0.4767 | Score=0.2849 (20.86s)
+[2026-11-08 12:27:19] [INFO]   [Toxicity  | alpha=0.35 | C=23.05154] Val_F1=0.5179 (±0.0185) | Train_F1=1.0000 | Gap=0.4821 | Score=0.2768 (27.63s)
+[2026-11-08 12:27:47] [INFO] Đọc dữ liệu từ data/train.csv: 29,474 dòng. Cột: text='Comment', sent='Sentiment', tox='Toxicity'
+[2026-11-08 12:27:47] [INFO] Bước 1/6: Làm sạch văn bản tối thiểu (Minimal Cleaning)...
+[2026-11-08 12:27:48] [INFO] Bước 2/6: Khởi tạo 5-Fold Joint Stratified & Tiền tính toán ma trận TF-IDF Pareto...
+[2026-11-08 12:27:55] [INFO]   [Fold 1/5] N_tr=23,579, V_total=242,879, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [6.87s]
+[2026-11-08 12:28:01] [INFO]   [Fold 2/5] N_tr=23,579, V_total=244,374, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [6.51s]
+[2026-11-08 12:28:08] [INFO]   [Fold 3/5] N_tr=23,579, V_total=243,017, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [6.49s]
+[2026-11-08 12:28:14] [INFO]   [Fold 4/5] N_tr=23,579, V_total=242,723, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [6.39s]
+[2026-11-08 12:28:20] [INFO]   [Fold 5/5] N_tr=23,580, V_total=242,639, max_features=70,740 (CLAMPED_TO_UPPER_BOUND_3N) [6.42s]
+[2026-11-08 12:28:20] [INFO] Đã khôi phục 35 kết quả từ checkpoint.
+[2026-11-08 12:28:20] [INFO] Bước 3/6: Tối ưu Siêu tham số C cho Trục 1 (Sentiment): [0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0]
+[2026-11-08 12:28:20] [INFO] ==> C* TRỤC SENTIMENT: C_sent* = 0.04705 (Val F1 = 0.6659, Gap = 0.0846)
+[2026-11-08 12:28:20] [INFO] Bước 4/6: Tối ưu (C, alpha) cho Trục 2 (Toxicity - IR=169.36): C=[0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0] x alpha=[0.0, 0.35, 0.5]
+[2026-11-08 12:28:57] [INFO]   [Toxicity  | alpha=0.35 | C=50.0    ] Val_F1=0.5169 (±0.0181) | Train_F1=1.0000 | Gap=0.4831 | Score=0.2754 (36.3s)
+[2026-11-08 12:29:02] [INFO]   [Toxicity  | alpha=0.5  | C=0.01    ] Val_F1=0.4987 (±0.0178) | Train_F1=0.6709 | Gap=0.1721 | Score=0.4127 (5.04s)
+[2026-11-08 12:29:07] [INFO]   [Toxicity  | alpha=0.5  | C=0.02169 ] Val_F1=0.5120 (±0.0154) | Train_F1=0.7374 | Gap=0.2254 | Score=0.3992 (5.2s)
+[2026-11-08 12:29:12] [INFO]   [Toxicity  | alpha=0.5  | C=0.04705 ] Val_F1=0.5314 (±0.0227) | Train_F1=0.8055 | Gap=0.2740 | Score=0.3944 (5.44s)
+[2026-11-08 12:29:18] [INFO]   [Toxicity  | alpha=0.5  | C=0.10205 ] Val_F1=0.5422 (±0.0213) | Train_F1=0.8873 | Gap=0.3451 | Score=0.3696 (5.84s)
+[2026-11-08 12:29:25] [INFO]   [Toxicity  | alpha=0.5  | C=0.22135 ] Val_F1=0.5464 (±0.0182) | Train_F1=0.9497 | Gap=0.4033 | Score=0.3448 (6.43s)
+[2026-11-08 12:29:32] [INFO]   [Toxicity  | alpha=0.5  | C=0.48012 ] Val_F1=0.5452 (±0.0189) | Train_F1=0.9853 | Gap=0.4401 | Score=0.3251 (7.53s)
+[2026-11-08 12:29:41] [INFO]   [Toxicity  | alpha=0.5  | C=1.04141 ] Val_F1=0.5372 (±0.0223) | Train_F1=0.9986 | Gap=0.4613 | Score=0.3066 (9.17s)
+[2026-11-08 12:29:53] [INFO]   [Toxicity  | alpha=0.5  | C=2.25886 ] Val_F1=0.5306 (±0.0168) | Train_F1=0.9999 | Gap=0.4693 | Score=0.2960 (11.88s)
+[2026-11-08 12:30:08] [INFO]   [Toxicity  | alpha=0.5  | C=4.89959 ] Val_F1=0.5260 (±0.0169) | Train_F1=1.0000 | Gap=0.4740 | Score=0.2890 (15.1s)
+[2026-11-08 12:30:30] [INFO]   [Toxicity  | alpha=0.5  | C=10.62747] Val_F1=0.5230 (±0.0172) | Train_F1=1.0000 | Gap=0.4770 | Score=0.2845 (21.26s)
+[2026-11-08 12:30:58] [INFO]   [Toxicity  | alpha=0.5  | C=23.05154] Val_F1=0.5178 (±0.0186) | Train_F1=1.0000 | Gap=0.4822 | Score=0.2767 (27.95s)
+[2026-11-08 12:31:32] [INFO]   [Toxicity  | alpha=0.5  | C=50.0    ] Val_F1=0.5169 (±0.0181) | Train_F1=1.0000 | Gap=0.4831 | Score=0.2754 (34.24s)
+[2026-11-08 12:31:32] [INFO] ==> (C*, alpha*) TRỤC TOXICITY: C_tox* = 0.01, alpha* = 0.0 (Val F1 = 0.5009, Gap = 0.1436)
+[2026-11-08 12:31:32] [INFO] Bước 5/6: Thu thập xác suất Out-of-Fold (OOF) & Kiểm tra tinh chỉnh ngưỡng hậu Platt Scaling...
+[2026-11-08 12:31:43] [INFO]   [Threshold Tuning] Kích hoạt hệ số ngưỡng [1.0, 0.800000011920929, 1.7999999523162842, 2.799999952316284]: OOF Toxicity F1 tăng từ 0.5013 -> 0.5379
+[2026-11-08 12:31:43] [INFO] Bước 6/6: Re-fit toàn bộ Pipeline trên 100% dữ liệu tập Train (29,474 mẫu)...
+[2026-11-08 12:31:55] [INFO] Đang chạy Bộ Tự Kiểm Tra 7 Bước (Self-Verification Suite)...
+[2026-11-08 12:31:55] [INFO] ==> TOÀN BỘ 7 BÀI KIỂM TRA TỰ ĐỘNG ĐỀU ĐẠT CHUẨN (100% PASSED)!
+[2026-11-08 12:31:55] [INFO] Hoàn tất Phase 2! Model lưu tại: artifacts/model_pipeline.joblib | Metadata lưu tại: artifacts/metadata.json

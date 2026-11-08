@@ -1,0 +1,59 @@
+{
+  "audit_status": "PASS_WITH_WARNINGS",
+  "dataset_summary": {
+    "n_raw_rows": 29474,
+    "n_valid_train": 29474,
+    "null_or_empty_raw": 0,
+    "empty_after_minimal_clean": 0,
+    "nfd_unicode_rows": 0,
+    "exact_duplicate_rows": 0,
+    "contradicting_label_groups": 0
+  },
+  "label_distribution": {
+    "sentiment_counts": {
+      "0": 14482,
+      "1": 8922,
+      "-1": 6070
+    },
+    "sentiment_imbalance_ratio": 2.39,
+    "toxicity_counts": {
+      "0": 26082,
+      "1": 2262,
+      "2": 976,
+      "3": 154
+    },
+    "toxicity_imbalance_ratio": 169.36,
+    "joint_3x4_counts": {
+      "sent_-1_tox_0": 3405,
+      "sent_-1_tox_1": 1609,
+      "sent_-1_tox_2": 902,
+      "sent_-1_tox_3": 154,
+      "sent_0_tox_0": 14262,
+      "sent_0_tox_1": 206,
+      "sent_0_tox_2": 14,
+      "sent_0_tox_3": 0,
+      "sent_1_tox_0": 8415,
+      "sent_1_tox_1": 447,
+      "sent_1_tox_2": 60,
+      "sent_1_tox_3": 0
+    },
+    "min_joint_cell_count": 0
+  },
+  "vocabulary_and_pareto_check": {
+    "v_word_1_2_min_df_2": 61173,
+    "v_char_2_5_min_df_2": 221636,
+    "v_total_clean": 282809,
+    "pareto_75_percent_features": 212106,
+    "required_bound_1N_to_3N": [
+      29474,
+      88422
+    ],
+    "effective_max_features": 88422,
+    "estimated_sparse_matrix_ram_mb": 52.29
+  },
+  "critical_issues": [],
+  "warnings": [
+    "Tổ hợp nhãn nhỏ nhất chỉ có 0 mẫu (<25). Cần lưu ý khi chia StratifiedKFold.",
+    "0.75 * V_total (212106) > 3 * N_train (88422). Sẽ bị cắt ở cận trên 3*N_train."
+  ]
+}
