@@ -24,6 +24,8 @@ echo "[1/2] Bắt đầu Step 2: Huấn luyện pipeline đa trục & tự kiể
     --text_col Comment \
     --sent_col Sentiment \
     --tox_col Toxicity \
+    --extra_data_path valid_data/valid.csv \
+    --selection max_val \
     --model_out artifacts/model_pipeline.joblib \
     --meta_out artifacts/metadata.json \
     --oof_out artifacts/oof_predictions.npz

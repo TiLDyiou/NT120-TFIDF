@@ -69,7 +69,10 @@ def generate_markdown_report(
     oof_m = meta["oof_summary_metrics"]
 
     md_lines = [
-        "# BÁO CÁO KỸ THUẬT: HUẤN LUYỆN MÔ HÌNH PHÂN LOẠI ĐA TRỤC TIẾNG VIỆT (29,474 GOLD SAMPLES)",
+        f"# BÁO CÁO KỸ THUẬT: HUẤN LUYỆN MÔ HÌNH PHÂN LOẠI ĐA TRỤC TIẾNG VIỆT ({ft['n_train']:,} MẪU)",
+        "",
+        f"- **Nguồn dữ liệu train:** `{meta.get('training_sources', ['data/train.csv'])}`",
+        f"- **Data fingerprint:** `{meta.get('data_fingerprint', 'n/a')}` | **Luật chọn siêu tham số:** `{meta.get('selection_rule', 'penalized')}`",
         "",
         "## 1. Thống kê Không gian Đặc trưng & Lọc Pareto 75% (Full Train 100%)",
         f"- **Tổng số mẫu tập Train sạch ($N_{{train}}$):** `{ft['n_train']:,}`",
@@ -154,4 +157,11 @@ def generate_markdown_report(
 
 
 if __name__ == "__main__":
-    generate_markdown_report()
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--meta", default="artifacts/metadata.json")
+    ap.add_argument("--oof", default="artifacts/oof_predictions.npz")
+    ap.add_argument("--out", default="reports/final_training_report.md")
+    a = ap.parse_args()
+    generate_markdown_report(a.meta, a.oof, a.out)

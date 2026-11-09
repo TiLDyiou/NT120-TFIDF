@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Phase 2: Complete Multi-Axis Training Pipeline for Vietnamese Comments (29,474 Gold Samples)
+Phase 2: Complete Multi-Axis Training Pipeline for Vietnamese Comments 
 Architecture:
   [MinimalVietnameseCleaner]
     -> [DynamicParetoTfidfExtractor (Word 1-2 + Char 2-5, Class-Balanced Pareto 75% in [1N, 3N])]
@@ -391,8 +391,8 @@ def optimize_oof_toxicity_thresholds(
 def create_joint_stratified_folds(y: np.ndarray, n_splits: int = 5) -> List[Tuple[np.ndarray, np.ndarray]]:
     """
     Phân tầng trực tiếp trên tổ hợp nhãn (sentiment, toxicity).
-    Với tập dữ liệu 29,474 mẫu hiện tại, cả 10 tổ hợp hiện diện đều có >= 14 mẫu (>= 5),
-    đảm bảo chia 5-Fold chính xác tuyệt đối.
+    Các ô có < n_splits mẫu (vd. sent_0_tox_3, sent_1_tox_3 sau khi chuẩn hoá nhãn) được gộp vào
+    ô sentiment chiếm đa số của cùng mức toxicity, nên phân tầng theo toxicity vẫn được giữ.
     """
     joint_labels = np.array([f"{s}_{t}" for s, t in zip(y[:, 0], y[:, 1])])
     unique_j, counts_j = np.unique(joint_labels, return_counts=True)
@@ -413,12 +413,36 @@ def create_joint_stratified_folds(y: np.ndarray, n_splits: int = 5) -> List[Tupl
     return list(skf.split(np.zeros(len(y)), joint_labels))
 
 
+def data_fingerprint(texts: List[str], y: np.ndarray) -> str:
+    """Hash nội dung (text + nhãn) để checkpoint CV không bị tái dùng khi dữ liệu/nhãn thay đổi."""
+    h = hashlib.sha256()
+    for t, (s, tx) in zip(texts, y):
+        h.update(f"{t}\x1f{int(s)}\x1f{int(tx)}\x1e".encode("utf-8"))
+    return h.hexdigest()[:12]
+
+
+def select_best_record(records: List[Dict[str, Any]], rule: str) -> Dict[str, Any]:
+    """
+    - "penalized" (mặc định theo phase2.md): lọc gap <= MAX_ACCEPTABLE_GAP rồi xếp theo val_F1 - lambda*gap.
+    - "max_val": chọn cấu hình có mean val F1 cao nhất (chuẩn CV thông thường).
+    """
+    if rule == "max_val":
+        return sorted(records, key=lambda x: (x["mean_val_f1"], -x["std_val_f1"]), reverse=True)[0]
+    valid = [r for r in records if r["overfit_gap"] <= Config.MAX_ACCEPTABLE_GAP] or records
+    return sorted(valid, key=lambda x: (x["penalized_selection_score"], x["mean_val_f1"]), reverse=True)[0]
+
+
 def tune_and_train(
     texts: List[str],
     y: np.ndarray,
-    checkpoint_path: str = "logs/cv_checkpoints.jsonl",
-    oof_out_path: str = "artifacts/oof_predictions.npz"
+    checkpoint_path: Optional[str] = None,
+    oof_out_path: str = "artifacts/oof_predictions.npz",
+    selection_rule: str = "penalized"
 ) -> Tuple[Pipeline, Dict[str, Any]]:
+    fingerprint = data_fingerprint(texts, y)
+    if checkpoint_path is None:
+        checkpoint_path = f"logs/cv_checkpoints_{fingerprint}.jsonl"
+    logger.info(f"Data fingerprint = {fingerprint} | Checkpoint = {checkpoint_path} | Selection rule = {selection_rule}")
     Path(checkpoint_path).parent.mkdir(parents=True, exist_ok=True)
     Path(oof_out_path).parent.mkdir(parents=True, exist_ok=True)
 
@@ -498,15 +522,14 @@ def tune_and_train(
             f"Train_F1={mean_tr:.4f} | Gap={gap:.4f} | Score={sel_score:.4f} ({rec['elapsed_sec']}s)"
         )
 
-    valid_sent = [r for r in sent_cv_results if r["overfit_gap"] <= Config.MAX_ACCEPTABLE_GAP] or sent_cv_results
-    best_sent_rec = sorted(valid_sent, key=lambda x: (x["penalized_selection_score"], x["mean_val_f1"]), reverse=True)[0]
+    best_sent_rec = select_best_record(sent_cv_results, selection_rule)
     best_c_sent = float(best_sent_rec["C"])
     logger.info(f"==> C* TRỤC SENTIMENT: C_sent* = {best_c_sent} (Val F1 = {best_sent_rec['mean_val_f1']:.4f}, Gap = {best_sent_rec['overfit_gap']:.4f})")
 
     # -----------------------------------------------------------------
     # Bước 3B: Quét (C, alpha) cho Trục 2 (Toxicity {0, 1, 2, 3})
     # -----------------------------------------------------------------
-    logger.info(f"Bước 4/6: Tối ưu (C, alpha) cho Trục 2 (Toxicity - IR=169.36): C={Config.C_GRID} x alpha={Config.TOX_ALPHA_GRID}")
+    logger.info(f"Bước 4/6: Tối ưu (C, alpha) cho Trục 2 (Toxicity): C={Config.C_GRID} x alpha={Config.TOX_ALPHA_GRID}")
     tox_cv_results: List[Dict[str, Any]] = []
     for alpha_val in Config.TOX_ALPHA_GRID:
         for c_val in Config.C_GRID:
@@ -541,8 +564,7 @@ def tune_and_train(
                 f"Train_F1={mean_tr:.4f} | Gap={gap:.4f} | Score={sel_score:.4f} ({rec['elapsed_sec']}s)"
             )
 
-    valid_tox = [r for r in tox_cv_results if r["overfit_gap"] <= Config.MAX_ACCEPTABLE_GAP] or tox_cv_results
-    best_tox_rec = sorted(valid_tox, key=lambda x: (x["penalized_selection_score"], x["mean_val_f1"]), reverse=True)[0]
+    best_tox_rec = select_best_record(tox_cv_results, selection_rule)
     best_c_tox = float(best_tox_rec["C"])
     best_alpha_tox = float(best_tox_rec["alpha"])
     logger.info(
@@ -585,9 +607,9 @@ def tune_and_train(
     )
 
     # -----------------------------------------------------------------
-    # Bước 6: Re-fit toàn bộ Pipeline trên 100% tập Train (29,474 mẫu)
+    # Bước 6: Re-fit toàn bộ Pipeline trên 100% tập Train
     # -----------------------------------------------------------------
-    logger.info("Bước 6/6: Re-fit toàn bộ Pipeline trên 100% dữ liệu tập Train (29,474 mẫu)...")
+    logger.info(f"Bước 6/6: Re-fit toàn bộ Pipeline trên 100% dữ liệu tập Train ({len(texts):,} mẫu)...")
     final_pipeline = Pipeline([
         ("cleaner", MinimalVietnameseCleaner()),
         ("tfidf_pareto", DynamicParetoTfidfExtractor(
@@ -618,6 +640,8 @@ def tune_and_train(
     oof_f1_combined = (oof_f1_sent + oof_f1_tox_final) / 2.0
 
     metadata = {
+        "data_fingerprint": fingerprint,
+        "selection_rule": selection_rule,
         "best_hyperparameters": {
             "C_sentiment": best_c_sent,
             "C_toxicity": best_c_tox,
@@ -739,6 +763,11 @@ def main():
     parser.add_argument("--model_out", type=str, default="artifacts/model_pipeline.joblib")
     parser.add_argument("--meta_out", type=str, default="artifacts/metadata.json")
     parser.add_argument("--oof_out", type=str, default="artifacts/oof_predictions.npz")
+    parser.add_argument("--extra_data_path", type=str, nargs="*", default=[],
+                        help="Các file CSV bổ sung (vd. valid_data/valid.csv) gộp vào tập train")
+    parser.add_argument("--selection", type=str, choices=["penalized", "max_val"], default="penalized")
+    parser.add_argument("--checkpoint_path", type=str, default=None,
+                        help="Mặc định: logs/cv_checkpoints_<data_fingerprint>.jsonl")
     args = parser.parse_args()
 
     if not os.path.exists(args.data_path):
@@ -755,6 +784,27 @@ def main():
 
     logger.info(f"Đọc dữ liệu từ {args.data_path}: {len(df):,} dòng. Cột: text='{col_text}', sent='{col_sent}', tox='{col_tox}'")
 
+    df = df[[col_text, col_sent, col_tox]].assign(_source=Path(args.data_path).name)
+    for extra in args.extra_data_path:
+        df_x = pd.read_csv(extra, encoding="utf-8-sig")[[col_text, col_sent, col_tox]].assign(_source=Path(extra).name)
+        logger.info(f"Gộp thêm {extra}: {len(df_x):,} dòng")
+        df = pd.concat([df, df_x], ignore_index=True)
+    if args.extra_data_path:
+        df["_clean"] = df[col_text].astype(str).map(MinimalVietnameseCleaner.clean_text)
+        n0 = len(df)
+        df = df[df["_clean"] != ""]
+        n_empty = n0 - len(df)
+        conflict = df.groupby("_clean")[[col_sent, col_tox]].nunique().gt(1).any(axis=1)
+        if conflict.any():
+            logger.warning(f"{int(conflict.sum())} câu trùng (sau làm sạch) có nhãn mâu thuẫn -> loại bỏ toàn bộ nhóm")
+            df = df[~df["_clean"].isin(set(conflict[conflict].index))]
+        n1 = len(df)
+        df = df.drop_duplicates(subset="_clean", keep="first").reset_index(drop=True)
+        logger.info(
+            f"Sau khi gộp: {len(df):,} dòng (bỏ {n_empty} dòng rỗng sau làm sạch, "
+            f"{n1 - len(df)} dòng trùng) | Nguồn: {df['_source'].value_counts().to_dict()}"
+        )
+
     texts = df[col_text].astype(str).tolist()
     y = df[[col_sent, col_tox]].to_numpy(dtype=int)
 
@@ -762,7 +812,11 @@ def main():
     assert set(np.unique(y[:, 0])).issubset({-1, 0, 1}), f"Cột Sentiment chứa giá trị lạ: {np.unique(y[:, 0])}"
     assert set(np.unique(y[:, 1])).issubset({0, 1, 2, 3}), f"Cột Toxicity chứa giá trị lạ: {np.unique(y[:, 1])}"
 
-    pipeline, metadata = tune_and_train(texts, y, oof_out_path=args.oof_out)
+    pipeline, metadata = tune_and_train(
+        texts, y, checkpoint_path=args.checkpoint_path,
+        oof_out_path=args.oof_out, selection_rule=args.selection
+    )
+    metadata["training_sources"] = [args.data_path] + list(args.extra_data_path)
 
     Path(args.model_out).parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(pipeline, args.model_out, compress=3)
@@ -780,4 +834,7 @@ def main():
     logger.info(f"Hoàn tất Phase 2! Model lưu tại: {args.model_out} | Metadata lưu tại: {args.meta_out}")
 
 if __name__ == "__main__":
-    main()
+    # Chạy main() từ module đã import theo tên đầy đủ để các class tự định nghĩa được pickle là
+    # `src.step2_train_pipeline.X` thay vì `__main__.X` (nếu không, joblib.load ở script khác sẽ lỗi).
+    from src.step2_train_pipeline import main as _main
+    _main()

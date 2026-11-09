@@ -1,0 +1,20 @@
+[2026-11-08 16:12:11] [INFO] Đọc dữ liệu từ data/train.csv: 29,474 dòng. Cột: text='Comment', sent='Sentiment', tox='Toxicity'
+[2026-11-08 16:12:11] [INFO] Data fingerprint = effca9440ec5 | Checkpoint = logs/cv_checkpoints_effca9440ec5.jsonl | Selection rule = max_val
+[2026-11-08 16:12:11] [INFO] Bước 1/6: Làm sạch văn bản tối thiểu (Minimal Cleaning)...
+[2026-11-08 16:12:11] [INFO] Bước 2/6: Khởi tạo 5-Fold Joint Stratified & Tiền tính toán ma trận TF-IDF Pareto...
+[2026-11-08 16:12:19] [INFO]   [Fold 1/5] N_tr=23,579, V_total=243,539, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [8.02s]
+[2026-11-08 16:12:27] [INFO]   [Fold 2/5] N_tr=23,579, V_total=243,038, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.57s]
+[2026-11-08 16:12:34] [INFO]   [Fold 3/5] N_tr=23,579, V_total=243,249, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.67s]
+[2026-11-08 16:12:42] [INFO]   [Fold 4/5] N_tr=23,579, V_total=242,605, max_features=70,737 (CLAMPED_TO_UPPER_BOUND_3N) [7.47s]
+[2026-11-08 16:12:49] [INFO]   [Fold 5/5] N_tr=23,580, V_total=243,714, max_features=70,740 (CLAMPED_TO_UPPER_BOUND_3N) [7.64s]
+[2026-11-08 16:12:49] [INFO] Đã khôi phục 48 kết quả từ checkpoint.
+[2026-11-08 16:12:49] [INFO] Bước 3/6: Tối ưu Siêu tham số C cho Trục 1 (Sentiment): [0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0]
+[2026-11-08 16:12:49] [INFO] ==> C* TRỤC SENTIMENT: C_sent* = 0.22135 (Val F1 = 0.6762, Gap = 0.1769)
+[2026-11-08 16:12:49] [INFO] Bước 4/6: Tối ưu (C, alpha) cho Trục 2 (Toxicity): C=[0.01, 0.02169, 0.04705, 0.10205, 0.22135, 0.48012, 1.04141, 2.25886, 4.89959, 10.62747, 23.05154, 50.0] x alpha=[0.0, 0.35, 0.5]
+[2026-11-08 16:12:49] [INFO] ==> (C*, alpha*) TRỤC TOXICITY: C_tox* = 0.22135, alpha* = 0.0 (Val F1 = 0.6405, Gap = 0.3004)
+[2026-11-08 16:12:49] [INFO] Bước 5/6: Thu thập xác suất Out-of-Fold (OOF) & Kiểm tra tinh chỉnh ngưỡng hậu Platt Scaling...
+[2026-11-08 16:13:07] [INFO]   [Threshold Tuning] Kích hoạt hệ số ngưỡng [1.0, 1.7000000476837158, 1.7999999523162842, 2.799999952316284]: OOF Toxicity F1 tăng từ 0.6407 -> 0.6639
+[2026-11-08 16:13:07] [INFO] Bước 6/6: Re-fit toàn bộ Pipeline trên 100% dữ liệu tập Train (29,474 mẫu)...
+[2026-11-08 16:13:20] [INFO] Đang chạy Bộ Tự Kiểm Tra 7 Bước (Self-Verification Suite)...
+[2026-11-08 16:13:21] [INFO] ==> TOÀN BỘ 7 BÀI KIỂM TRA TỰ ĐỘNG ĐỀU ĐẠT CHUẨN (100% PASSED)!
+[2026-11-08 16:13:21] [INFO] Hoàn tất Phase 2! Model lưu tại: artifacts/train_only_max_val/model_pipeline.joblib | Metadata lưu tại: artifacts/train_only_max_val/metadata.json
